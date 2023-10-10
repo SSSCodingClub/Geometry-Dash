@@ -1,29 +1,22 @@
 from setup import *
-from player import Player
+from game import Game
 
-
-p = Player()
+scene = Game()
 
 delta_time = 0
 last_time = pygame.time.get_ticks()
 
-
 is_running = True
 while is_running:
     current_time = pygame.time.get_ticks()
-    delta_time = (current_time - last_time) / 1000 # gives us time in seconds
+    delta_time = (current_time - last_time) / 1000  # gives us time in seconds
     last_time = current_time
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            is_running = False
+    status = scene.update(delta_time)
+    if status == COMMAND_QUIT:
+        is_running = False
 
-
-    p.update(delta_time)
-
-
-    screen.fill((0,0,0))
-    p.draw(screen)
+    scene.draw(screen)
 
     pygame.display.update()
 
