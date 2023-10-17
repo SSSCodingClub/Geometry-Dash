@@ -19,3 +19,5 @@ class Tile:
                          self.outline_width)
 
 
+class HalfTile(Tile):
+    height = 25

@@ -2,8 +2,8 @@ import pygame
 
 pygame.init()
 
-SCREEN_WIDTH = 720
-SCREEN_HEIGHT = 640
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 dimensions = pygame.Vector2(SCREEN_WIDTH, SCREEN_HEIGHT)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
