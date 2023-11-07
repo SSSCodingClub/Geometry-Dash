@@ -21,10 +21,15 @@ class Tile:
                 self.outlines[2] = False
             if tile.position == self.position + pygame.Vector2(-self.width, 0):
                 self.outlines[3] = False
-
-
-
-
+        for spike in spikes:
+            if spike.position == self.position + pygame.Vector2(0, -self.height) and spike.angle == 0:
+                self.outlines[0] = False
+            if spike.position == self.position + pygame.Vector2(self.width, 0) and spike.angle == 90:
+                self.outlines[1] = False
+            if spike.position == self.position + pygame.Vector2(0, self.height) and spike.angle == 180:
+                self.outlines[2] = False
+            if spike.position == self.position + pygame.Vector2(-self.width, 0) and spike.angle == 270:
+                self.outlines[3] = False
     def update(self, delta, camera_speed):
         self.position.x -= camera_speed * delta
 

@@ -12,6 +12,7 @@ COMMAND_RESTART = 1
 COMMAND_NEXT_LEVEL = 2
 
 PLAYER_DEAD = 3
+PLAYER_WIN = 4
 
 pygame.display.set_caption("Geometry Dash")
 

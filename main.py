@@ -12,7 +12,7 @@ while is_running:
     delta_time = (current_time - last_time) / 1000  # gives us time in seconds
     last_time = current_time
 
-    status = scene.update(delta_time/5)
+    status = scene.update(delta_time)
     if status == COMMAND_QUIT:
         is_running = False
     elif status == COMMAND_RESTART:
