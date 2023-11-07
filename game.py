@@ -16,6 +16,9 @@ class Game:
         self.level = level
         self.import_level()
 
+        for tile in self.tiles:
+            tile.detect_outlines(self.tiles, self.spikes)
+
     def import_level(self):
         with open("levels/" + self.level + ".txt") as f:
             lines = f.readlines()
@@ -27,6 +30,12 @@ class Game:
                         self.tiles.append(HalfTile((x * Tile.width, y * Tile.height)))
                     elif tile_type == "3":
                         self.spikes.append(Spike((x * Tile.width, y * Tile.height), 0))
+                    elif tile_type == "4":
+                        self.spikes.append(Spike((x * Tile.width, y * Tile.height), 90))
+                    elif tile_type == "5":
+                        self.spikes.append(Spike((x * Tile.width, y * Tile.height), 180))
+                    elif tile_type == "6":
+                        self.spikes.append(Spike((x * Tile.width, y * Tile.height), 270))
 
 
 

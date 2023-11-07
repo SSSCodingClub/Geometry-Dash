@@ -52,7 +52,7 @@ class Player:
                 self.velocity.y = 0
 
         for spike in spikes:
-            if self.colliding(spike.position.x, spike.position.y, spike.width, spike.height):
+            if self.colliding(spike.position.x + spike.hitbox_offset.x, spike.position.y + spike.hitbox_offset.y, spike.hitbox_width, spike.hitbox_height):
                 return PLAYER_DEAD
 
 
