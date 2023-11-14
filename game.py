@@ -3,6 +3,7 @@ from player import Player
 from tile import Tile, HalfTile
 from spike import Spike
 from goal import Goal
+from portal import Portal
 
 
 class Game:
@@ -11,6 +12,7 @@ class Game:
         self.player = Player()
         self.tiles = []
         self.spikes = []
+        self.portals = []
         self.goal = None
 
         self.camera_speed = pygame.Vector2(300,0)
@@ -42,6 +44,11 @@ class Game:
                         self.spikes.append(Spike((x * Tile.width, y * Tile.height), 270))
                     elif tile_type == "7":
                         self.goal = Goal((x * Tile.width, y * Tile.height))
+                    elif tile_type == "8":
+                        self.portals.append(Portal((x * Tile.width, y * Tile.height), Player.SHIP))
+                    elif tile_type == "9":
+                        self.portals.append(Portal((x * Tile.width, y * Tile.height), Player.SQUARE))
+
 
 
 
@@ -49,7 +56,7 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return COMMAND_QUIT
-        player_status = self.player.update(delta, self.tiles, self.spikes, self.goal)
+        player_status = self.player.update(delta, self.tiles, self.spikes, self.goal, self.portals)
 
         if player_status == PLAYER_DEAD:
             return COMMAND_RESTART
@@ -60,6 +67,9 @@ class Game:
             tile.update(delta, self.camera_speed.x)
         for spike in self.spikes:
             spike.update(delta, self.camera_speed.x)
+
+        for portal in self.portals:
+            portal.update(delta, self.camera_speed.x)
 
         if self.goal:
             self.goal.update(delta, self.camera_speed.x)
@@ -73,3 +83,5 @@ class Game:
             tile.draw(screen)
         for spike in self.spikes:
             spike.draw(screen)
+        for portal in self.portals:
+            portal.draw(screen)
