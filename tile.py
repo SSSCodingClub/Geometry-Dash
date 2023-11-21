@@ -9,6 +9,7 @@ class Tile:
 
     def __init__(self, position):
         self.position = pygame.Vector2(position)
+        self.display_position = pygame.Vector2(position)
         self.outlines = [True, True, True, True] # Top, Right, Bot, Left
 
     def detect_outlines(self, tiles, spikes):
@@ -30,20 +31,20 @@ class Tile:
                 self.outlines[2] = False
             if spike.position == self.position + pygame.Vector2(-self.width, 0) and spike.angle == 270:
                 self.outlines[3] = False
-    def update(self, delta, camera_speed):
-        self.position.x -= camera_speed * delta
+    def update(self, camera_position):
+        self.display_position.x = self.position.x - camera_position.x
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.colour, (self.position.x, self.position.y, self.width, self.height))
+        pygame.draw.rect(screen, self.colour, (self.display_position.x, self.display_position.y, self.width, self.height))
 
         if self.outlines[0]:
-            pygame.draw.line(screen, self.outline_colour, (self.position.x, self.position.y), (self.position.x + self.width, self.position.y), self.outline_width)
+            pygame.draw.line(screen, self.outline_colour, (self.display_position.x, self.display_position.y), (self.display_position.x + self.width, self.display_position.y), self.outline_width)
         if self.outlines[1]:
-            pygame.draw.line(screen, self.outline_colour, (self.position.x + self.width, self.position.y), (self.position.x + self.width, self.position.y + self.height), self.outline_width)
+            pygame.draw.line(screen, self.outline_colour, (self.display_position.x + self.width, self.display_position.y), (self.display_position.x + self.width, self.display_position.y + self.height), self.outline_width)
         if self.outlines[2]:
-            pygame.draw.line(screen, self.outline_colour, (self.position.x + self.width, self.position.y + self.height), (self.position.x, self.position.y + self.height), self.outline_width)
+            pygame.draw.line(screen, self.outline_colour, (self.display_position.x + self.width, self.display_position.y + self.height), (self.display_position.x, self.display_position.y + self.height), self.outline_width)
         if self.outlines[3]:
-            pygame.draw.line(screen, self.outline_colour, (self.position.x, self.position.y + self.height), (self.position.x, self.position.y), self.outline_width)
+            pygame.draw.line(screen, self.outline_colour, (self.display_position.x, self.display_position.y + self.height), (self.display_position.x, self.display_position.y), self.outline_width)
 
 
 

@@ -24,6 +24,7 @@ class Spike(Tile):
             self.hitbox_height, self.hitbox_width = self.hitbox_width, self.hitbox_height
             self.hitbox_offset = pygame.Vector2((1-k) * self.height, self.width/2 - self.hitbox_height/2)
         self.outlines = [True]
+        self.hitbox_position = self.position + self.hitbox_offset
 
     def detect_outlines(self, tiles, spikes):
         for tile in tiles:
@@ -53,41 +54,42 @@ class Spike(Tile):
                 if spike.position == self.position + pygame.Vector2(self.width, 0):
                     self.outlines[0] = False
 
-    def update(self, delta, camera_speed):
-        self.position.x -= camera_speed * delta
+    def update(self, camera_position):
+        super().update(camera_position)
+        self.hitbox_position = self.position + self.hitbox_offset
 
     def draw(self, screen):
         if self.angle == 0:
-            pygame.draw.polygon(screen, self.colour, [(self.position.x, self.position.y + self.height),
-                                                (self.position.x + self.width, self.position.y + self.height),
-                                                (self.position.x + self.width/2, self.position.y)])
+            pygame.draw.polygon(screen, self.colour, [(self.display_position.x, self.display_position.y + self.height),
+                                                (self.display_position.x + self.width, self.display_position.y + self.height),
+                                                (self.display_position.x + self.width/2, self.display_position.y)])
             if self.outlines[0]:
-                pygame.draw.polygon(screen, self.outline_colour, [(self.position.x, self.position.y + self.height),
-                                                    (self.position.x + self.width, self.position.y + self.height),
-                                                    (self.position.x + self.width/2, self.position.y)], width=self.outline_width)
+                pygame.draw.polygon(screen, self.outline_colour, [(self.display_position.x, self.display_position.y + self.height),
+                                                    (self.display_position.x + self.width, self.display_position.y + self.height),
+                                                    (self.display_position.x + self.width/2, self.display_position.y)], width=self.outline_width)
             else:
-                pygame.draw.lines(screen, self.outline_colour, False, [(self.position.x, self.position.y + self.height), (self.position.x + self.width/2, self.position.y),
-                                                    (self.position.x + self.width, self.position.y + self.height)], width=self.outline_width)
+                pygame.draw.lines(screen, self.outline_colour, False, [(self.display_position.x, self.display_position.y + self.height), (self.display_position.x + self.width/2, self.display_position.y),
+                                                    (self.display_position.x + self.width, self.display_position.y + self.height)], width=self.outline_width)
 
         elif self.angle == 90:
-            pygame.draw.polygon(screen, self.colour, [(self.position.x, self.position.y), (self.position.x + self.width, self.position.y + self.height/2), (self.position.x, self.position.y + self.height)])
+            pygame.draw.polygon(screen, self.colour, [(self.display_position.x, self.display_position.y), (self.display_position.x + self.width, self.display_position.y + self.height/2), (self.display_position.x, self.display_position.y + self.height)])
             if self.outlines[0]:
-                pygame.draw.polygon(screen, self.outline_colour, [(self.position.x, self.position.y), (self.position.x + self.width, self.position.y + self.height/2), (self.position.x, self.position.y + self.height)], width=self.outline_width)
+                pygame.draw.polygon(screen, self.outline_colour, [(self.display_position.x, self.display_position.y), (self.display_position.x + self.width, self.display_position.y + self.height/2), (self.display_position.x, self.display_position.y + self.height)], width=self.outline_width)
             else:
-                pygame.draw.lines(screen, self.outline_colour, False, [(self.position.x, self.position.y), (self.position.x + self.width, self.position.y + self.height/2), (self.position.x, self.position.y + self.height)], width=self.outline_width)
+                pygame.draw.lines(screen, self.outline_colour, False, [(self.display_position.x, self.display_position.y), (self.display_position.x + self.width, self.display_position.y + self.height/2), (self.display_position.x, self.display_position.y + self.height)], width=self.outline_width)
         elif self.angle == 180:
-            pygame.draw.polygon(screen, self.colour, [(self.position.x, self.position.y), (self.position.x + self.width, self.position.y), (self.position.x + self.width/2, self.position.y + self.height)])
+            pygame.draw.polygon(screen, self.colour, [(self.display_position.x, self.display_position.y), (self.display_position.x + self.width, self.display_position.y), (self.display_position.x + self.width/2, self.display_position.y + self.height)])
             if self.outlines[0]:
-                pygame.draw.polygon(screen, self.outline_colour, [(self.position.x, self.position.y), (self.position.x + self.width, self.position.y), (self.position.x + self.width/2, self.position.y + self.height)], width=self.outline_width)
+                pygame.draw.polygon(screen, self.outline_colour, [(self.display_position.x, self.display_position.y), (self.display_position.x + self.width, self.display_position.y), (self.display_position.x + self.width/2, self.display_position.y + self.height)], width=self.outline_width)
             else:
-                pygame.draw.lines(screen, self.outline_colour, False, [(self.position.x, self.position.y), (self.position.x + self.width/2, self.position.y + self.height), (self.position.x + self.width, self.position.y)], width=self.outline_width)
+                pygame.draw.lines(screen, self.outline_colour, False, [(self.display_position.x, self.display_position.y), (self.display_position.x + self.width/2, self.display_position.y + self.height), (self.display_position.x + self.width, self.display_position.y)], width=self.outline_width)
 
         elif self.angle == 270:
-            pygame.draw.polygon(screen, self.colour, [(self.position.x + self.width, self.position.y), (self.position.x + self.width, self.position.y + self.height), (self.position.x, self.position.y + self.height/2)])
+            pygame.draw.polygon(screen, self.colour, [(self.display_position.x + self.width, self.display_position.y), (self.display_position.x + self.width, self.display_position.y + self.height), (self.display_position.x, self.display_position.y + self.height/2)])
             if self.outlines[0]:
-                pygame.draw.polygon(screen, self.outline_colour, [(self.position.x + self.width, self.position.y), (self.position.x + self.width, self.position.y + self.height), (self.position.x, self.position.y + self.height/2)], width=self.outline_width)
+                pygame.draw.polygon(screen, self.outline_colour, [(self.display_position.x + self.width, self.display_position.y), (self.display_position.x + self.width, self.display_position.y + self.height), (self.display_position.x, self.display_position.y + self.height/2)], width=self.outline_width)
             else:
-                pygame.draw.lines(screen, self.outline_colour, False, [(self.position.x + self.width, self.position.y), (self.position.x, self.position.y + self.height/2), (self.position.x + self.width, self.position.y + self.height)], width=self.outline_width)
+                pygame.draw.lines(screen, self.outline_colour, False, [(self.display_position.x + self.width, self.display_position.y), (self.display_position.x, self.display_position.y + self.height/2), (self.display_position.x + self.width, self.display_position.y + self.height)], width=self.outline_width)
 
 
 

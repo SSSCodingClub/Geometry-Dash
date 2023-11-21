@@ -27,6 +27,7 @@ class Player:
 
     def __init__(self):
         self.position = pygame.Vector2(SCREEN_WIDTH / 5, SCREEN_HEIGHT * 2 / 3)
+        self.display_position = pygame.Vector2(SCREEN_WIDTH / 5, SCREEN_HEIGHT * 2 / 3)
         self.velocity = pygame.Vector2(0, 0)
         self.acceleration = pygame.Vector2(0, self.gravity.y)
 
@@ -55,7 +56,10 @@ class Player:
             self.acceleration = pygame.Vector2(0, self.ship_gravity.y)
 
 
-    def update(self, delta, tiles, spikes, goal, portals):
+    def update(self, delta, tiles, spikes, goal, portals, camera_speed, camera_position):
+        self.position += camera_speed * delta
+
+
         if not (self.mode == self.SQUARE and self.on_ground):
             self.jump_cooldown = max(0, self.jump_cooldown - delta)
 
@@ -106,6 +110,8 @@ class Player:
             if self.colliding(goal.position.x + self.width, goal.position.y, goal.width, goal.height):
                 return PLAYER_WIN
 
+        self.display_position = self.position - camera_position
+
     def colliding(self, x, y, width, height):
         if (self.position.x < x + width and
                 self.position.x + self.width > x and
@@ -139,7 +145,7 @@ class Player:
 
 
     def draw(self, screen):
-        display_points = [self.position + point for point in self.points]
+        display_points = [self.display_position + point for point in self.points]
         pygame.draw.polygon(screen, self.colour, display_points)
         pygame.draw.polygon(screen, self.colour, display_points , self.outline_width)
 

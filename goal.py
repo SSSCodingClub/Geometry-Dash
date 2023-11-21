@@ -7,12 +7,13 @@ class Goal:
 
     def __init__(self, position):
         self.position = pygame.Vector2(position[0], 0)
+        self.display_position = pygame.Vector2(position[0], 0)
 
-    def update(self, delta, camera_speed):
-        self.position.x -= camera_speed * delta
+    def update(self, camera_position):
+        self.display_position.x = self.position.x - camera_position.x
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (144,238,144), (self.position.x, self.position.y, SCREEN_WIDTH, SCREEN_HEIGHT))
+        pygame.draw.rect(screen, (144,238,144), (self.display_position.x, self.display_position.y, SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
 
